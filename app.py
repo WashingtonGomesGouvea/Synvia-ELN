@@ -490,17 +490,16 @@ with col_left2:
 
 with col_right2:
     st.markdown("### 📊 Distribuição de Status dos Lotes")
-    
-    # Dados do donut
+
+    # Dados do donut - agrupando REAN + REPREAN em uma única categoria "Rep/Rean"
     total_rean = df_filtered['REAN'].sum()
     total_reprean = df_filtered['REPREAN'].sum()
-    outros = total_lotes - total_aprovados - total_reprovados - total_rean - total_reprean
-    outros = max(0, outros)  # Evitar negativos
-    
+    total_rep_rean = total_rean + total_reprean  # Agrupar repetição/reanálise
+
     status_data = {
-        'Status': ['Aprovados', 'Reprovados', 'Em Reanálise', 'Rep. p/ Reanálise'],
-        'Quantidade': [total_aprovados, total_reprovados, total_rean, total_reprean],
-        'Cor': ['#00d4aa', '#ff6b6b', '#ffd93d', '#e17055']
+        'Status': ['Aprovados', 'Reprovados', 'Rep/Rean'],
+        'Quantidade': [total_aprovados, total_reprovados, total_rep_rean],
+        'Cor': ['#00d4aa', '#ff6b6b', '#ffd93d']
     }
     df_status = pd.DataFrame(status_data)
     df_status = df_status[df_status['Quantidade'] > 0]  # Remover zeros
